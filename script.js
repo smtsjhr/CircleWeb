@@ -1,3 +1,11 @@
+var record_animation = false;
+var name = "image_"
+var total_frames = 300;
+var frame = 0;
+var loop = 0;
+var total_time = 4*Math.PI;
+var rate = total_time/total_frames;
+
 
 var enable_interaction = true;
 
@@ -24,13 +32,13 @@ var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 
 
-startAnimating(60);
+startAnimating(25);
 
 
 function draw() {
 
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
+    W = canvas.width = 300; //window.innerWidth;
+    H = canvas.height = 300; //window.innerHeight;
     
     ctx.fillStyle = 'rgba(0,0,0,1)';
     ctx.fillRect(0, 0, W, H);
@@ -51,7 +59,7 @@ function draw() {
     }
 
     
-    t += t_rate;
+    //t += t_rate;
   
   
     if(enable_interaction) {
@@ -129,9 +137,36 @@ function startAnimating(fps) {
      now = newtime;
      elapsed = now - then;
  
-     if (elapsed > fpsInterval) {
-         then = now - (elapsed % fpsInterval);
+    if (elapsed > fpsInterval) {
+        then = now - (elapsed % fpsInterval);
      
-         draw();  
-     }
+        draw();
+         
+        frame = (frame+1)%total_frames;
+        time = rate*frame;
+        t = time;
+
+        if(record_animation) {
+
+            if (loop === 1) { 
+                let frame_number = frame.toString().padStart(total_frames.toString().length, '0');
+                let filename = name+frame_number+'.png'
+                
+                dataURL = canvas.toDataURL();
+                var element = document.createElement('a');
+                element.setAttribute('href', dataURL);
+                element.setAttribute('download', filename);
+                element.style.display = 'none';
+                document.body.appendChild(element);
+                element.click();
+                document.body.removeChild(element);
+            }
+
+            if (frame + 1 === total_frames) {
+                loop += 1;
+            }
+
+            if (loop === 2) { stop_animation = true }
+        }
+    }
  }
