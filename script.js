@@ -1,6 +1,6 @@
-var record_animation = false;
+var record_animation = true;
 var name = "image_"
-var total_frames = 300;
+var total_frames = 250;
 var frame = 0;
 var loop = 0;
 var total_time = 4*Math.PI;
@@ -8,8 +8,8 @@ var rate = total_time/total_frames;
 
 
 var enable_interaction = true;
-
-var t = 0;
+var t_0 = .3*Math.PI;
+var t = t_0;
 var t_rate = .02;
 
 var r = .05;
@@ -23,7 +23,8 @@ var s = 50;
 
 
 var stop_animation = false;
-var fps, fpsInterval, startTime, now, then, elapsed;
+var fps = 50;
+var fpsInterval, startTime, now, then, elapsed;
 
 var get_mouse_pos = false;
 var get_touch_pos = false;
@@ -32,13 +33,13 @@ var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 
 
-startAnimating(25);
+startAnimating(fps);
 
 
 function draw() {
 
-    W = canvas.width = 300; //window.innerWidth;
-    H = canvas.height = 300; //window.innerHeight;
+    W = canvas.width = 1080; //window.innerWidth;
+    H = canvas.height = 1920; //window.innerHeight;
     
     ctx.fillStyle = 'rgba(0,0,0,1)';
     ctx.fillRect(0, 0, W, H);
@@ -143,7 +144,7 @@ function startAnimating(fps) {
         draw();
          
         frame = (frame+1)%total_frames;
-        time = rate*frame;
+        time = rate*frame + t_0;
         t = time;
 
         if(record_animation) {
