@@ -1,4 +1,4 @@
-var record_animation = true;
+var record_animation = false;
 var name = "image_"
 var total_frames = 250;
 var frame = 0;
